@@ -9,12 +9,55 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
+@foreach (var config in wrapper._configs)
+{
+    @switch (config.Type)
+    {
+        case "h1":
+            <h1>@config.Data</h1>
+            break;
+        case "button":
+            <button class="btn btn-primary" @onclick="@config.Action">@config.Data</button>
+            break;
+        case "p":
+            <p>@config.Data @currentCount</p>
+            break;
+        default:
+            <p>@config.Data</p>
+            break;
+    }
+}
+
 @code {
     private int currentCount = 0;
 
     private void IncrementCount()
     {
         currentCount++;
+    }
+    
+    private UIConfigWrapper wrapper = new UIConfigWrapper(
+    [
+        new() { Type = "h1", Data = "Counter" },
+        new() { Type = "p", Data = "Current Count: " },
+        new() { Type = "button", Data = "Click me", Action = () => { } }
+    ]);
+
+    class UIConfigWrapper
+    {
+        public readonly UIConfig[] _configs;
+
+        public UIConfigWrapper(UIConfig[] configs)
+        {
+            _configs = configs;
+        }
+    }
+    
+    class UIConfig
+    {
+        public string Type { get; set; }
+        public string Data { get; set; }
+        public Action? Action { get; set; }
     }
 
 }
