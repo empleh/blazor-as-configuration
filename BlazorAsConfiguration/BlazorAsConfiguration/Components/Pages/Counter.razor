@@ -9,7 +9,7 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
-@foreach (var config in wrapper._configs)
+@foreach (var config in _configs)
 {
     @switch (config.Type)
     {
@@ -35,25 +35,21 @@
     {
         currentCount++;
     }
-    
-    private UIConfigWrapper wrapper = new UIConfigWrapper(
-    [
-        new() { Type = "h1", Data = "Counter" },
-        new() { Type = "p", Data = "Current Count: " },
-        new() { Type = "button", Data = "Click me", Action = () => { } }
-    ]);
 
-    class UIConfigWrapper
+    public UIConfig[] _configs;
+
+    protected override void OnInitialized()
     {
-        public readonly UIConfig[] _configs;
-
-        public UIConfigWrapper(UIConfig[] configs)
-        {
-            _configs = configs;
-        }
+        _configs =
+        [
+            new UIConfig { Type = "h1", Data = "Counter" },
+            new UIConfig { Type = "p", Data = "Current Count: " },
+            new UIConfig { Type = "button", Data = "Click me", Action = IncrementCount }
+        ];
+        base.OnInitialized();
     }
-    
-    class UIConfig
+
+    public class UIConfig
     {
         public string Type { get; set; }
         public string Data { get; set; }
