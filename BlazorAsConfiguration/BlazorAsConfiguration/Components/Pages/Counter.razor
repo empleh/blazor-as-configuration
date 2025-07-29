@@ -7,57 +7,37 @@
 
 <p role="status">Current count: @currentCount</p>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn btn-primary" @onclick="IncrementCount">Add Button</button>
 
-@foreach (var config in wrapper._configs)
-{
-    @switch (config.Type)
-    {
-        case "h1":
-            <h1>@config.Data</h1>
-            break;
-        case "button":
-            <button class="btn btn-primary" @onclick="@config.Action">@config.Data</button>
-            break;
-        case "p":
-            <p>@config.Data @currentCount</p>
-            break;
-        default:
-            <p>@config.Data</p>
-            break;
-    }
-}
+<AppConfigLayout configs="_configs"></AppConfigLayout>
 
 @code {
     private int currentCount = 0;
+    public DTOs.UIConfig[] _configs;
 
     private void IncrementCount()
     {
         currentCount++;
     }
     
-    private UIConfigWrapper wrapper = new UIConfigWrapper(
-    [
-        new() { Type = "h1", Data = "Counter" },
-        new() { Type = "p", Data = "Current Count: " },
-        new() { Type = "button", Data = "Click me", Action = () => { } }
-    ]);
-
-    class UIConfigWrapper
+    private void DecrementCount()
     {
-        public readonly UIConfig[] _configs;
-
-        public UIConfigWrapper(UIConfig[] configs)
-        {
-            _configs = configs;
-        }
-    }
-    
-    class UIConfig
-    {
-        public string Type { get; set; }
-        public string Data { get; set; }
-        public Action? Action { get; set; }
+        currentCount--;
+        _configs[4].Data = "Current Count Updated: " + currentCount;
     }
 
+    protected override Task OnInitializedAsync()
+    {
+        _configs =
+        [
+            new() { Type = "break" },
+            new() { Type = "break" },
+            new() { Type = "break" },
+            new() { Type = "button", Data = "Minus Button", Action = DecrementCount },
+            new() { Type = "p", Data = "Current Count: " + currentCount },
+            new() { Type = "h1", Data = "End of the line" },
+        ];
+
+        return base.OnInitializedAsync();
+    }
 }

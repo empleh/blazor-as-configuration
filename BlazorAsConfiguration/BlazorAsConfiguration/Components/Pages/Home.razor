@@ -5,3 +5,26 @@
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+
+<AppConfigLayout configs="_configs"></AppConfigLayout>
+
+
+@code {
+    private int currentCount = 0;
+    public DTOs.UIConfig[] _configs;
+    
+    private void DecrementCount()
+    {
+        currentCount--;
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        _configs =
+        [
+            new() { Type = "button", Data = "Welcome", Action = DecrementCount },
+        ];
+
+        return base.OnInitializedAsync();
+    }
+}

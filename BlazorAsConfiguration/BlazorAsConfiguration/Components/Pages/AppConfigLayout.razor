@@ -1,0 +1,25 @@
+@foreach (var config in configs)
+{
+   @switch (config.Type)
+   {
+      case "h1":
+         <h1>@config.Data</h1>
+         break;
+      case "button":
+         <button class="btn btn-primary" @onclick="@config.Action">@config.Data</button>
+         break;
+      case "p":
+         <p>@config.Data</p>
+         break;
+      case "break":
+         <br/>
+         break;
+      default:
+         <p>@config.Data</p>
+         break;
+   }
+}
+
+@code {
+   [Parameter] public DTOs.UIConfig[] configs { get; set; }
+}
