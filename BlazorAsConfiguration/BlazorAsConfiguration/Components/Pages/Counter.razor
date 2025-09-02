@@ -23,8 +23,6 @@
     private void DecrementCount()
     {
         currentCount--;
-        _configs[4].Data = "Current Count Updated: " + currentCount;
-
     }
 
     protected override Task OnInitializedAsync()
@@ -35,7 +33,7 @@
             new() { Type = "break" },
             new() { Type = "break" },
             new() { Type = "button", Data = "Minus Button", Action = DecrementCount },
-            new() { Type = "p", Data = "Current Count: " + currentCount },
+            new() { Type = "p", Data = "Static Data", DynamicData = () => "Dynamic Data Count: " + currentCount},
             new() { Type = "h1", Data = "End of the line" },
         ];
 

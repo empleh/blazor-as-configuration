@@ -9,7 +9,15 @@
          <button class="btn btn-primary" @onclick="@config.Action">@config.Data</button>
          break;
       case "p":
-         <p>@config.Data</p>
+         <p>
+         @if (config.DynamicData != null)
+         {
+            @config.DynamicData()
+         }
+         <br/>
+         @config.Data
+         </p>
+
          break;
       case "break":
          <br/>
